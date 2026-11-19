@@ -1,0 +1,15 @@
+schema_version = "1.0.0"
+
+id = "nebstudio_template"
+version = "1.0.0"
+name = "NebStudio Template"
+tagline = "Base template for NebStudio extensions"
+maintainer = "NebStudio <contact.nebstudio@gmail.com>"
+
+type = "add-on"
+
+tags = ["Pipeline", "User Interface"]
+
+blender_version_min = "5.1.0"
+
+license = ["SPDX:GPL-3.0-or-later"]
