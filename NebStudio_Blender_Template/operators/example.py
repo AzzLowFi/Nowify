@@ -1,5 +1,7 @@
 import bpy
 
+from ..core import registry
+
 
 class NEBSTUDIO_OT_example(bpy.types.Operator):
     """Example operator for NebStudio extensions."""
@@ -14,9 +16,14 @@ class NEBSTUDIO_OT_example(bpy.types.Operator):
         return {"FINISHED"}
 
 
+CLASSES = (
+    NEBSTUDIO_OT_example,
+)
+
+
 def register():
-    bpy.utils.register_class(NEBSTUDIO_OT_example)
+    registry.register_classes(CLASSES)
 
 
 def unregister():
-    bpy.utils.unregister_class(NEBSTUDIO_OT_example)
+    registry.unregister_classes(CLASSES)
