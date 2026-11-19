@@ -3,34 +3,42 @@
 import bpy
 
 
-_REGISTERED_CLASSES = set()
+def _get_registered_class(cls):
+    """Find a class currently registered in Blender by its Python name."""
+    return getattr(bpy.types, cls.__name__, None)
 
 
 def register_classes(classes):
-    """Register classes safely, rolling back if registration fails."""
+    """Register classes safely, replacing stale registrations if necessary."""
     registered = []
 
     try:
         for cls in classes:
-            if cls in _REGISTERED_CLASSES:
+            existing = _get_registered_class(cls)
+
+            if existing is cls:
                 continue
 
+            if existing is not None:
+                bpy.utils.unregister_class(existing)
+
             bpy.utils.register_class(cls)
-            _REGISTERED_CLASSES.add(cls)
             registered.append(cls)
 
     except Exception:
         for cls in reversed(registered):
-            bpy.utils.unregister_class(cls)
-            _REGISTERED_CLASSES.discard(cls)
+            existing = _get_registered_class(cls)
+
+            if existing is not None:
+                bpy.utils.unregister_class(existing)
+
         raise
 
 
 def unregister_classes(classes):
     """Unregister classes in reverse order."""
     for cls in reversed(classes):
-        if cls not in _REGISTERED_CLASSES:
-            continue
+        existing = _get_registered_class(cls)
 
-        bpy.utils.unregister_class(cls)
-        _REGISTERED_CLASSES.discard(cls)
+        if existing is not None:
+            bpy.utils.unregister_class(existing)
