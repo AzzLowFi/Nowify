@@ -1,1 +1,6 @@
-"""Shared internal utilities for NebStudio extensions."""
+from . import registry
+
+
+__all__ = (
+    "registry",
+)
