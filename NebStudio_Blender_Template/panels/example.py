@@ -1,5 +1,7 @@
 import bpy
 
+from ..core import registry
+
 
 class NEBSTUDIO_PT_example(bpy.types.Panel):
     """Example panel for NebStudio extensions."""
@@ -12,6 +14,7 @@ class NEBSTUDIO_PT_example(bpy.types.Panel):
 
     def draw(self, context):
         layout = self.layout
+
         if layout is None:
             return
 
@@ -19,9 +22,14 @@ class NEBSTUDIO_PT_example(bpy.types.Panel):
         layout.operator("nebstudio.example", icon="PLAY")
 
 
+CLASSES = (
+    NEBSTUDIO_PT_example,
+)
+
+
 def register():
-    bpy.utils.register_class(NEBSTUDIO_PT_example)
+    registry.register_classes(CLASSES)
 
 
 def unregister():
-    bpy.utils.unregister_class(NEBSTUDIO_PT_example)
+    registry.unregister_classes(CLASSES)
