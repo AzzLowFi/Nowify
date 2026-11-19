@@ -4,8 +4,11 @@ import bpy
 
 
 def _get_registered_class(cls):
-    """Find a class currently registered in Blender by its Python name."""
-    return getattr(bpy.types, cls.__name__, None)
+    """Find a registered Blender class by its Python name."""
+    try:
+        return getattr(bpy.types, cls.__name__)
+    except AttributeError:
+        return None
 
 
 def register_classes(classes):
